@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 import DishdetailComponent from './DishdetailComponent';
-
 class Menu extends React.Component {
 
   constructor(props) {
@@ -33,6 +32,17 @@ class Menu extends React.Component {
         );
     });
 
+    let commentaries = [];
+
+    if(selectedDish) {
+      commentaries = selectedDish.comments.map(commentary => (
+        <div key={commentary.id}>
+          <p>{commentary.comment}</p>
+          <p>---{commentary.author}, {commentary.date}</p>
+        </div>
+      ));
+    }
+
     return (
       <div className="container">
         <div className="row">
@@ -43,6 +53,10 @@ class Menu extends React.Component {
             {selectedDish && (
               <DishdetailComponent dish={selectedDish} />
             )}
+          </div>
+          <div className="col-12 col-md-5 m-1">
+            <h3>Comments</h3>
+             {commentaries}
           </div>
         </div>
       </div>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
-
 const DishdetailComponent = (props) => {
-
   const { dish } = props;
 
   return (
