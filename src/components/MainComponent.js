@@ -52,7 +52,7 @@ class Main extends Component {
           <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
           <Route path='/menu/:dishId' component={DishWithId} />
-          <Route exact path='/contact-us' component={Contact} />} />
+          <Route exact path='/contact-us' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
           <Route exact path="/about-us" component={() => <About leaders={this.props.leaders}/>} />
           <Redirect to="/home" />
         </Switch>
