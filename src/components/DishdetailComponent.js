@@ -184,14 +184,18 @@ function RenderComments({ comments, postComment, dishId }) {
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
         <ul className="list-unstyled">
+        <Stagger in>
           {comments.map((comment) => {
             return (
-              <li key={comment.id}>
-                <p>{comment.comment}</p>
-                <p>-- {comment.author}, {new Date(comment.date).toLocaleDateString('en-US', options)}</p>
-              </li>
+              <Fade in>
+                <li key={comment.id}>
+                  <p>{comment.comment}</p>
+                  <p>-- {comment.author}, {new Date(comment.date).toLocaleDateString('en-US', options)}</p>
+                </li>
+              </Fade>
             )
           })}
+          </Stagger>
         </ul>
         <CommentForm
           dishId={dishId}
