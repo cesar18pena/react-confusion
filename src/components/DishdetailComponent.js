@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbIte
   Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 import Loading from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -155,13 +156,19 @@ function RenderDish({ dish, isLoading, errMess }) {
   }
   else if (dish != null) {
     return (
-      <Card>
-        <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
+      <FadeTransform
+        in
+        transformProps={{
+            exitTransform: 'scale(0.5) translateY(-50%)'}}
+        >
+        <Card>
+          <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+          <CardBody>
+            <CardTitle>{dish.name}</CardTitle>
+            <CardText>{dish.description}</CardText>
+          </CardBody>
+        </Card>
+      </FadeTransform>
     )
   } else {
     return (
@@ -173,38 +180,26 @@ function RenderDish({ dish, isLoading, errMess }) {
 function RenderComments({ comments, postComment, dishId }) {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   if (comments != null) {
-    const commentaries = comments.map((comment) => {
-      return (
-        <div key={comment.id}>
-          <ul className="list-unstyled">
-            <li className="media">
-              <div className="media-body">
+    return (
+      <div className="col-12 col-md-5 m-1">
+        <h4>Comments</h4>
+        <ul className="list-unstyled">
+          {comments.map((comment) => {
+            return (
+              <li key={comment.id}>
                 <p>{comment.comment}</p>
                 <p>-- {comment.author}, {new Date(comment.date).toLocaleDateString('en-US', options)}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      );
-    });
-
-    return (
-      <div>
-        <div>
-          <h4>Comments</h4>
-          {commentaries}
-        </div>
+              </li>
+            )
+          })}
+        </ul>
         <CommentForm
           dishId={dishId}
           postComment={postComment} 
         />
       </div>
-    );
-  } else {
-    return (
-      <div></div>
-    );
-  }
+    )
+  } 
 }
 
 const DishDetail = (props) => {
