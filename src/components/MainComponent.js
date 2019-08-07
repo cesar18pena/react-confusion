@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Menu from './MenuComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -54,14 +55,18 @@ class Main extends Component {
     return (
       <div>
         <Header />
-        <Switch>
-          <Route path="/home" component={HomePage} />
-          <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
-          <Route path='/menu/:dishId' component={DishWithId} />
-          <Route exact path='/contact-us' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-          <Route exact path="/about-us" component={() => <About leaders={this.props.leaders}/>} />
-          <Redirect to="/home" />
-        </Switch>
+          <TransitionGroup>
+            <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
+              <Switch location={this.props.location}>
+                <Route path='/home' component={HomePage} />
+                <Route exact path='/about-us' component={() => <About leaders={this.props.leaders} />} />
+                <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
+                <Route path='/menu/:dishId' component={DishWithId} />
+                <Route exact path='/contact-us' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                <Redirect to="/home" />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
         <Footer />
       </div>
     );
